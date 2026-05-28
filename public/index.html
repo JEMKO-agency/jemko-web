@@ -414,5 +414,74 @@ document.addEventListener('DOMContentLoaded', async function() {
   }
 })();
 </script>
+
+<style>
+/* Client logos */
+.hero-trust .logos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+.hero-trust .logos img.client-logo {
+  height: 44px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  opacity: 0.75;
+  filter: grayscale(30%);
+  transition: opacity 0.2s;
+}
+.hero-trust .logos img.client-logo:hover {
+  opacity: 1;
+  filter: none;
+}
+@media (max-width: 560px) {
+  .hero-trust .logos img.client-logo { height: 34px; max-width: 90px; }
+  .hero-trust .logos { gap: 16px; }
+}
+</style>
+<script>
+/* ── Reemplazar logos de texto con imagenes reales ── */
+(function injectLogos() {
+  function run() {
+    const logos = document.querySelector('.hero-trust .logos');
+    if (!logos) return;
+
+    const map = {
+      'GALERÍA ALBERDI': '/logos/galeria-alberdi.png',
+      'BPR': '/logos/bpr.png',
+      'PUNTO SABOR': '/logos/punto-sabor.png',
+      'HOTEL COLÓN': '/logos/colon.png',
+    };
+
+    // Reemplazar spans de texto con imágenes
+    logos.querySelectorAll('span').forEach(span => {
+      const name = span.textContent.trim();
+      if (map[name]) {
+        const img = document.createElement('img');
+        img.src = map[name];
+        img.alt = name;
+        img.className = 'client-logo';
+        span.replaceWith(img);
+      }
+    });
+
+    // También reemplazar el img de Colón existente si está con UUID
+    logos.querySelectorAll('img:not(.client-logo)').forEach(img => {
+      if (img.alt && img.alt.toLowerCase().includes('colón')) {
+        img.src = '/logos/colon.png';
+        img.className = 'client-logo';
+        img.style = '';
+      }
+    });
+  }
+
+  // Esperar al bundle y retry
+  setTimeout(run, 800);
+  setTimeout(run, 2000);
+  document.addEventListener('DOMContentLoaded', run);
+})();
+</script>
 </body>
 </html>
