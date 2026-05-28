@@ -20,18 +20,10 @@
 </head>
 <body>
   <div id="__bundler_thumbnail">
-  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-    <rect width="1200" height="800" fill="#0A0A0A"></rect>
-    <circle cx="600" cy="380" r="180" fill="#F5B800"></circle>
-    <g fill="#0A0A0A">
-      <path d="M510 320 q40 -55 80 -10 q40 -45 80 10 q-10 35 -80 35 q-70 0 -80 -35z"></path>
-      <circle cx="565" cy="380" r="22"></circle>
-      <circle cx="635" cy="380" r="22"></circle>
-      <path d="M540 420 q60 80 120 0 q-10 70 -60 70 q-50 0 -60 -70z"></path>
-    </g>
-    <text x="600" y="640" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="72" fill="#F5B800" letter-spacing="6">JEMKO</text>
-    <text x="600" y="690" text-anchor="middle" font-family="sans-serif" font-weight="500" font-size="20" fill="#A0A0A6" letter-spacing="6">MARKETING &amp; BRANDING</text>
-  </svg>
+  <div style="text-align:center">
+    <div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:48px;font-weight:900;letter-spacing:8px;color:#F5B800;margin-bottom:12px">JEMKO</div>
+    <div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:12px;font-weight:500;letter-spacing:5px;color:#555;text-transform:uppercase">Marketing &amp; Branding</div>
+  </div>
 </div>
   <div id="__bundler_loading">Unpacking...</div>
 
@@ -240,6 +232,179 @@ document.addEventListener('DOMContentLoaded', async function() {
   const style = document.createElement('style');
   style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
   document.head.appendChild(style);
+})();
+</script>
+
+<style>
+/* ============================================
+   JEMKO — Mobile optimization patch
+   ============================================ */
+
+/* Variables responsive */
+:root {
+  --pad: clamp(16px, 5vw, 40px);
+  --container: 1200px;
+}
+
+/* Hamburger button */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+  z-index: 200;
+}
+.nav-burger span {
+  display: block;
+  height: 2px;
+  background: var(--ink, #E8E8E8);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu overlay */
+.nav-mobile {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: 65px;
+  background: rgba(10,10,10,0.98);
+  backdrop-filter: blur(20px);
+  z-index: 150;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 24px;
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a {
+  font-size: 28px;
+  font-weight: 700;
+  color: #E8E8E8;
+  text-decoration: none;
+  letter-spacing: 1px;
+  padding: 12px 24px;
+  transition: color 0.2s;
+  text-align: center;
+}
+.nav-mobile a:hover { color: #F5B800; }
+.nav-mobile .nav-mobile-cta {
+  margin-top: 24px;
+  padding: 16px 36px;
+  background: #F5B800;
+  color: #000;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 780px) {
+  .nav-burger { display: flex; }
+  .btn-nav { display: none; }
+
+  /* Hero */
+  .hero { min-height: 85vh; padding: 60px 0 80px; }
+  .hero-title { font-size: clamp(38px, 10vw, 72px) !important; }
+  .hero-sub { font-size: 15px !important; }
+  .hero-cta { flex-direction: column; gap: 12px; }
+  .hero-cta .btn { width: 100%; justify-content: center; }
+
+  /* Servicios */
+  .services { grid-template-columns: 1fr !important; }
+  .service-card { padding: 24px 20px; }
+
+  /* Stats */
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 24px !important; }
+  .stat-number { font-size: clamp(36px, 8vw, 56px) !important; }
+
+  /* CTA strip */
+  .cta-strip { padding: 40px 24px !important; }
+  .cta-inner { flex-direction: column; gap: 24px; text-align: center; }
+  .cta-inner h2 { font-size: clamp(24px, 6vw, 40px) !important; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+  /* Secciones */
+  .section { padding: 60px 0 !important; }
+  .section-head h2 { font-size: clamp(28px, 7vw, 44px) !important; }
+
+  /* Cases */
+  .cases-wrap { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 400px) {
+  .stats-grid { grid-template-columns: 1fr !important; }
+  .hero-title { font-size: 36px !important; }
+}
+</style>
+
+<script>
+/* ── Hamburger menu ── */
+(function() {
+  function initMobileMenu() {
+    const navInner = document.querySelector('.nav-inner');
+    const navLinks = document.querySelector('.nav-links');
+    if (!navInner || !navLinks) return;
+
+    // Crear burger button
+    const burger = document.createElement('button');
+    burger.className = 'nav-burger';
+    burger.setAttribute('aria-label', 'Menu');
+    burger.innerHTML = '<span></span><span></span><span></span>';
+    navInner.appendChild(burger);
+
+    // Crear mobile nav
+    const mobileNav = document.createElement('nav');
+    mobileNav.className = 'nav-mobile';
+    mobileNav.innerHTML = `
+      <a href=index.html>Inicio</a>
+      <a href=servicios.html>Servicios</a>
+      <a href=casos.html>Casos</a>
+      <a href=nosotros.html>Nosotros</a>
+      <a href=contacto.html>Contacto</a>
+      <a href=contacto.html class=nav-mobile-cta>Diagnóstico Gratuito</a>
+    `;
+    document.body.appendChild(mobileNav);
+
+    // Toggle
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+      document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+    });
+
+    // Cerrar al hacer click en un link
+    mobileNav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        burger.classList.remove('open');
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  // Esperar a que el bundle cargue
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+  } else {
+    initMobileMenu();
+    // Retry por si el bundle reemplaza el DOM
+    setTimeout(initMobileMenu, 1500);
+  }
 })();
 </script>
 </body>
