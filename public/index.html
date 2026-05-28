@@ -322,9 +322,10 @@ document.addEventListener('DOMContentLoaded', async function() {
   .hero-cta { flex-direction: column; gap: 12px; }
   .hero-cta .btn { width: 100%; justify-content: center; }
 
-  /* Servicios */
+  /* Servicios — 1 columna siempre en mobile */
   .services { grid-template-columns: 1fr !important; }
   .service-card { padding: 24px 20px; }
+  .service-title { font-size: 14px !important; overflow: visible !important; white-space: normal !important; }
 
   /* Stats */
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 24px !important; }
@@ -338,12 +339,18 @@ document.addEventListener('DOMContentLoaded', async function() {
   /* Footer */
   .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
 
+  /* Trust logos — no se corten */
+  .hero-trust .logos { flex-wrap: wrap !important; gap: 16px !important; }
+  .hero-trust .logos span,
+  .hero-trust .logos img { white-space: nowrap; }
+
   /* Secciones */
   .section { padding: 60px 0 !important; }
   .section-head h2 { font-size: clamp(28px, 7vw, 44px) !important; }
 
   /* Cases */
   .cases-wrap { grid-template-columns: 1fr !important; }
+  .case-cards { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 400px) {
